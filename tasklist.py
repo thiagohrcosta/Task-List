@@ -20,6 +20,13 @@ def update_task(tasks, index, new_task_name):
   print(f"Task '{new_task_name}' updated successfully.")
   return
 
+def delete_completed_task(tasks, index):
+  for task in tasks:
+    if task["completed"]:
+      tasks.remove(task)
+  print(f"All Task marked as completed was deleted.")
+  return
+
 def mark_task_as_done(tasks, index):
   formatted_index = formatted_index_helper(index)
   tasks[formatted_index]["completed"] = True
@@ -70,6 +77,10 @@ while True:
       mark_task_as_done(tasks, task_index)
     else:
       task_not_found_helper()
+  elif choice == "5":
+    list_task(tasks)
+    delete_completed_task(tasks, task_index)
+    list_task(tasks)
   elif choice == "6":
     break
 
