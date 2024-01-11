@@ -15,22 +15,29 @@ def add_task(tasks, task_name):
   return
 
 def update_task(tasks, index, new_task_name):
-  formatted_index = int(index) - 1
+  formatted_index = formatted_index_helper(index)
   tasks[formatted_index]["task"] = new_task_name
   print(f"Task '{new_task_name}' updated successfully.")
   return
 
 def mark_task_as_done(tasks, index):
-  formatted_index = int(index) - 1
-
+  formatted_index = formatted_index_helper(index)
   tasks[formatted_index]["completed"] = True
 
   print(f"Task {index} marked as completed.")
   return
 
+def formatted_index_helper(index):
+  index = int(index) - 1
+  return index
+
 def is_valid_index(index):
-    formatted_index = int(index) - 1
+    formatted_index = formatted_index_helper(index)
     return 0 <= formatted_index < len(tasks)
+
+def task_not_found_helper():
+  print("Taks not found")
+  return
 
 while True:
   print("\nTask Manager Menu: ")
@@ -55,11 +62,14 @@ while True:
       new_task_name = input("Type the new task name: ")
       update_task(tasks, task_index, new_task_name)
     else:
-      print("Task not found.")
+      task_not_found_helper()
   elif choice == "4":
     list_task(tasks)
     task_index = input("Type the task index to mark as completed: ")
-    mark_task_as_done(tasks, task_index)
+    if is_valid_index(task_index):
+      mark_task_as_done(tasks, task_index)
+    else:
+      task_not_found_helper()
   elif choice == "6":
     break
 
