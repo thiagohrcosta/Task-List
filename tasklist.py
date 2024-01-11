@@ -20,7 +20,7 @@ def update_task(tasks, index, new_task_name):
   print(f"Task '{new_task_name}' updated successfully.")
   return
 
-def delete_completed_task(tasks, index):
+def delete_completed_task(tasks):
   for task in tasks:
     if task["completed"]:
       tasks.remove(task)
@@ -45,6 +45,13 @@ def is_valid_index(index):
 def task_not_found_helper():
   print("Taks not found")
   return
+
+def task_is_empty(tasks):
+  if len(tasks) > 0:
+    return 1
+  
+def task_is_empty_message():
+  print("There is no task on the list.")
 
 while True:
   print("\nTask Manager Menu: ")
@@ -71,16 +78,22 @@ while True:
     else:
       task_not_found_helper()
   elif choice == "4":
-    list_task(tasks)
-    task_index = input("Type the task index to mark as completed: ")
-    if is_valid_index(task_index):
-      mark_task_as_done(tasks, task_index)
+    if task_is_empty(tasks):
+      list_task(tasks)
+      task_index = input("Type the task index to mark as completed: ")
+      if is_valid_index(task_index):
+        mark_task_as_done(tasks, task_index)
+      else:
+        task_not_found_helper()
     else:
-      task_not_found_helper()
+      task_is_empty_message()
   elif choice == "5":
-    list_task(tasks)
-    delete_completed_task(tasks, task_index)
-    list_task(tasks)
+    if task_is_empty(tasks):
+      list_task(tasks)
+      delete_completed_task(tasks)
+      list_task(tasks)
+    else:
+     task_not_found_helper()
   elif choice == "6":
     break
 
