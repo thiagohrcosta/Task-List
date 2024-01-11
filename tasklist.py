@@ -2,10 +2,10 @@ tasks = []
 
 def list_task(tasks):
   print("\nTask list: ")
-  for indice, task in enumerate(tasks, start=1):
+  for index, task in enumerate(tasks, start=1):
     status = "✓" if task["completed"] else " "
     task_name = task["task"]
-    print(f"{indice}. [{status}] {task_name}")
+    print(f"{index}. [{status}] {task_name}")
   return
 
 def add_task(tasks, task_name):
@@ -13,6 +13,15 @@ def add_task(tasks, task_name):
   tasks.append(task)
   print(f"The task {task} was successfully added")
   return
+
+def update_task(tasks, index, new_task_name):
+  formatted_index = int(index) - 1
+  tasks[formatted_index]["task"] = new_task_name
+  print(f"Task '{new_task_name}' updated successfully.")
+  return
+
+def is_valid_index(index):
+    return 0 <= index < len(tasks)
 
 while True:
   print("\nTask Manager Menu: ")
@@ -30,6 +39,14 @@ while True:
     add_task(tasks, task_name)
   elif choice == "2":
     list_task(tasks)
+  elif choice == "3":
+    list_task(tasks)
+    task_index = input("Type the task index number to update: ")
+    if is_valid_index(int(task_index) - 1):
+      new_task_name = input("Type the new task name: ")
+      update_task(tasks, task_index, new_task_name)
+    else:
+      print("Task not found.")
   elif choice == "6":
     break
 
